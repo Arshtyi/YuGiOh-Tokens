@@ -40,7 +40,7 @@ jobs:
                   echo "" >> $GITHUB_OUTPUT
                   echo "| id | name | description | attribute | ATK | DEF | level | typeline |" >> $GITHUB_OUTPUT
                   echo "| :---: | :---: | :--- | :---: | :---: | :---: | :---: | :--- |" >> $GITHUB_OUTPUT
-                  jq -r 'to_entries | sort_by(.key) | .[] | "| \(.key) | \(.value.name // "" | gsub("\\|"; "\\\\|")) | \(.value.description // "" | gsub("[\n\r]+"; " ") | gsub("\\|"; "\\\\|")) | \(.value.attribute // "") | \(.value.atk // "") | \(.value.def // "") | \(.value.level // "") | \(.value.typeline // "" | gsub("\\|"; "\\\\|")) |"' token.json >> $GITHUB_OUTPUT
+                  jq -r 'to_entries | sort_by(.key) | .[] | "| \(.key) | \(.value.name // "" | gsub("\\|"; "\\\\|")) | \(.value.description // "" | gsub("[\n\r]+"; " ") | gsub("\\|"; "\\\\|")) | \(.value.attribute // "") | \(if .value.atk == -1 then "?" else (.value.atk // "") end) | \(if .value.def == -1 then "?" else (.value.def // "") end) | \(if .value.level == -1 then "?" else (.value.level // "") end) | \(.value.typeline // "" | gsub("\\|"; "\\\\|")) |"' token.json >> $GITHUB_OUTPUT
                   echo "EOF" >> $GITHUB_OUTPUT
               shell: bash
 
